@@ -154,13 +154,13 @@ function Main(){
                 })
 
                 //compat searches done, log what was found and not found
-                console.info("Found names for these compats;");
+                console.info("Found names for these compats:");
                 foundConfs.forEach(compat => {
                     console.log(`\t${compat.compat} - possible names: \n\t\t${compat.names.join("\n\t\t")}\n`);
                 })
 
                 console.log("");
-                console.error("Couldnt find names for these compats");
+                console.error("Couldnt find names for these compats:");
                 notFoundConfs.forEach(compat => {
                     console.log(`\t${compat}`);
                 })
@@ -175,7 +175,7 @@ function Main(){
 
     } else {
         //occurs when the compat dir doesnt exist. This could be due to the program incorrectly guessing or the user making a typo. Either edit 'conf.json' or delete it for a new prompt.
-        console.error("Compat dir not found");
+        console.error("Compat dir not found!");
     }
 }
 
