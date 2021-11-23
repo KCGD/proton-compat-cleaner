@@ -42,7 +42,7 @@ console["info"] = (message) => {
 var conf;
 
 
-//init
+//load config (or make it if it doesnt exist), then call main
 if(!fs.existsSync(path.join(process.cwd(), "./conf.json"))){
 
     //guess proton compat dir, if incorrect, user supplies the dir in the else statement
@@ -90,7 +90,7 @@ function Main(){
         compatList.forEach(f => {
             console.log(`\t${f}`);
         })
-        
+
 
         console.log("");
         rl.question("Scan for game names? [Y/n]: ", (a) => {
