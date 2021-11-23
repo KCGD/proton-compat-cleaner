@@ -1,10 +1,13 @@
 'use strict';
 /**
  * 
- * This is a tool to clean up proton's compat dirs (mostly for non-steam games)
+ * This is a tool to clean up proton's compat directories (mostly for non-steam games)
  * 
- * steam doesnt automatically delete these direcotries when you remove the game, and each one
- * can take up hundreds of MBs
+ * Steam doesnt automatically delete these direcotries when you remove the game, and each one
+ * can take up hundreds of megabytes
+ * 
+ * THIS PROGRAM WAS MADE WITHOUT WARRANTY. THERE IS NO GUARANTEE THAT IT WILL WORK, AND IT MAY RESULT IN LOSS OF DATA. USE WITH CAUTION.
+ * oh, and have fun :)
  * 
  */
 
@@ -35,7 +38,9 @@ console["info"] = (message) => {
     console.log(`[${chalk.green("INFO")}]: ${message}`);
 }
 
+
 var conf;
+
 
 //init
 if(!fs.existsSync(path.join(process.cwd(), "./conf.json"))){
@@ -85,6 +90,7 @@ function Main(){
         compatList.forEach(f => {
             console.log(`\t${f}`);
         })
+        
 
         console.log("");
         rl.question("Scan for game names? [Y/n]: ", (a) => {
@@ -94,6 +100,7 @@ function Main(){
 
             if(a.toLowerCase() === "y"){
 
+
                 //for each compat, search AppData folder (Local and LocalLow) for folder names that ARE NOT in the blacklist, will usually return the name of the game
                 //or manufacturer. It stores all thats found in possibleNames, which is exported into foundConfs. If it cant find any names, the conf goes to notFoundConfs
                 compatList.forEach((compat) => {
@@ -102,11 +109,13 @@ function Main(){
 
                     let appDataPath = path.join(conf.dir, `./${compat}/pfx/drive_c/users/steamuser/AppData/`)
 
+
                     //make sure the compat has an appdata dir. you never know ¯\_(ツ)_/¯
                     if(fs.existsSync(appDataPath)){
 
                         let local = [];
                         let localLow = [];
+
 
                         //Either appdata dir may or may not exist, cant put them in the same try cause one will take out the other if it doesnt exist.
                         try{
@@ -117,8 +126,10 @@ function Main(){
                             localLow = fs.readdirSync(path.join(appDataPath, "LocalLow"));
                         } catch (e){};
 
+
                         //most compats will have these. They are excluded to not clutter the possible names
                         let blacklist = ["Microsoft", "openvr", "UnrealEngine"];
+
 
                         //combine Local and LocalLow found names to make processing easier
                         (local.concat(localLow)).forEach((name) => {
@@ -144,14 +155,13 @@ function Main(){
                                     "compat" : compat,
                                     "names" : possibleNames
                                 })
-
                             }
                         })
-
                     } else {
                         notFoundConfs.push(compat);
                     }
                 })
+
 
                 //compat searches done, log what was found and not found
                 console.info("Found names for these compats:");
@@ -179,12 +189,14 @@ function Main(){
     }
 }
 
+
 //a cli interface for some commands
 function questions(initial){
     if(initial){
         console.log("");
         console.info("Nothing else to do! Please enter a command (see help if unsure) or exit");
     }
+
 
     rl.question("> ", (a) => {
         switch (a.split(" ")[0]){
@@ -194,6 +206,7 @@ function questions(initial){
                 console.log("\texit - exits the program");
                 questions();
             break;
+
 
             //deletes a compat dir (IT DISPLAYS THE DIRECTORY WHILE CONFIRMING IF YOU WISH TO DELETE, MAKE SURE THE DIRECTORY IS CORRECT OR THERE CAN BE LOSS OF DATA)
             case "delete":
@@ -206,20 +219,20 @@ function questions(initial){
 
                             if(ans.toLowerCase() === "y"){
                                 rimraf(path.join(conf.dir, compatID), (e) => {
+
                                     if(e){
                                         throw e;
                                     } else {
                                         console.info("Deleted successfully");
                                         questions();
                                     }
+
                                 })
                             } else {
                                 console.info("Ok, not deleting");
                                 questions();
                             }
-    
                         })
-
                     } else {
                         console.error(`Could not find a compat with the id "${compatID}", wrong ID?`);
                         questions();
@@ -230,9 +243,11 @@ function questions(initial){
                 }
             break;
 
+
             case "exit":
                 process.exit(0);
             break;
+
 
             default:
                 console.error(`Unknown command "${a}"`);
