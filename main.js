@@ -11,6 +11,11 @@
  * 
  */
 
+/**
+ * TODO:
+ * look for config relative to program path, not execution dir (dont use process.cwd() for that, look for code from gat repo)
+ */
+
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -18,6 +23,8 @@ const chalk = require('chalk');
 const rimraf = require('rimraf');
 const readline = require('readline');
 
+//program executable dir (for configs and stuff)
+const execDir = path.dirname(process.env._);
 
 //create readline client
 const rl = readline.createInterface({
@@ -43,7 +50,7 @@ var conf;
 
 
 //load config (or make it if it doesnt exist), then call main
-if(!fs.existsSync(path.join(process.cwd(), "./conf.json"))){
+if(!fs.existsSync(path.join(execDir, "./conf.json"))){
 
     //guess proton compat dir, if incorrect, user supplies the dir in the else statement
     let guessCompatDir = path.join(os.homedir(), ".steam/debian-installation/steamapps/compatdata");
@@ -55,7 +62,7 @@ if(!fs.existsSync(path.join(process.cwd(), "./conf.json"))){
                 "dir":guessCompatDir
             }
     
-            fs.writeFileSync(path.join(process.cwd(), "./conf.json"), JSON.stringify(conf));
+            fs.writeFileSync(path.join(execDir, "./conf.json"), JSON.stringify(conf));
             Main();
 
         } else {
@@ -67,14 +74,14 @@ if(!fs.existsSync(path.join(process.cwd(), "./conf.json"))){
                     "dir":a
                 }
         
-                fs.writeFileSync(path.join(process.cwd(), "./conf.json"), JSON.stringify(conf));
+                fs.writeFileSync(path.join(execDir, "./conf.json"), JSON.stringify(conf));
                 Main();
             })
         }
     })
 } else {
     //config already exists, just load it and call Main
-    conf = JSON.parse(fs.readFileSync(path.join(process.cwd(), "./conf.json")).toString());
+    conf = JSON.parse(fs.readFileSync(path.join(execDir, "./conf.json")).toString());
     Main();
 }
 
