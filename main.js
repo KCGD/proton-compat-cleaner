@@ -11,11 +11,6 @@
  * 
  */
 
-/**
- * TODO:
- * look for config relative to program path, not execution dir (dont use process.cwd() for that, look for code from gat repo)
- */
-
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
