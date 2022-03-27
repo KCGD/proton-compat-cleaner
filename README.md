@@ -17,13 +17,6 @@ sudo pacman -S nodejs npm
 ```
 
 
-### Installing global packages (npm)
-Install this package globally via npm (will be used with build.sh to compile the code)
-```bash
-sudo npm i -g pkg
-```
-
-
 ### Downloading and compiling the code
 Clone the repository
 
@@ -39,7 +32,6 @@ npm i
 
 Lastly, compile the code
 ```bash
-chmod +x ./build.sh
 ./build.sh
 ```
 

@@ -1,1 +1,1 @@
-pkg package.json -t node12-linux
+npx pkg package.json -t node12-linux

@@ -22,5 +22,8 @@
       "linux"
     ]
   },
-  "bin": "./main.js"
+  "bin": "./main.js",
+  "devDependencies": {
+    "pkg": "^5.5.2"
+  }
 }
